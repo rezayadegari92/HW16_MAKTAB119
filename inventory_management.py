@@ -9,8 +9,7 @@ class Item:
         self.price = price
 
     def update_stock(self,amount):
-        logging.info(f"the stock of {self.name} with id {self.id_} updated to {self.quantity}")
-        self.quantity += amount
+        pass
     def get_item_information(self):
         return f"ID: {self.id_}, Name: {self.name}, quantity: {self.quantity}, Price: {self.price}"
 
@@ -20,6 +19,10 @@ class PhysicalItem(Item):
         super().__init__(id_, name, quantity, price)
         self.weight = weight
         self.dimensions = dimensions
+
+    def update_stock(self,amount):
+        self.quantity += amount
+        logging.info(f"the stock of {self.name} receive {amount} amount  and  updated to {self.quantity}")
 
 
     def get_item_information(self):
@@ -33,6 +36,10 @@ class DigitalItem(Item):
         self.file_size = file_size
         self.link_download = link_download
 
+    def update_stock(self,amount):
+        self.quantity += amount
+        logging.info(f"the stock of {self.name} with id {self.id_} updated to {self.quantity}")
+
     def get_item_information(self):
         info = super().get_item_information()
         info_digital = f" File size: {self.file_size}  Link download: {self.link_download}"
@@ -45,5 +52,7 @@ obj1.update_stock(30)
 print(obj1.quantity)
 print(obj1.get_item_information())
 
-obj2 = DigitalItem(1,"music_album",10,29.9,28,"www.reza.com")
+obj2 = DigitalItem(3,"music_album",10,29.9,28,"www.reza.com")
 print(obj2.get_item_information())
+
+obj1.update_stock(25)

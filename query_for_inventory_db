@@ -1,0 +1,58 @@
+CREATE TYPE Category as ENUM('physical','digital');
+create table inventory(
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(100),
+	QUANTITY INT,
+	PRICE DECIMAL(10,2),
+	type Category not null,
+	weight DECIMAL(10,2),
+	dimensions VARCHAR(100),
+	file_size DECIMAL(10,2),
+	download_link TEXT,
+	date_added TIMESTAMP DEFAULT NOW()
+);
+
+INSERT INTO inventory (name, quantity, price, type, weight, dimensions, file_size, download_link)
+VALUES
+    ('Laptop', 10, 999.99, 'physical', 2.5, '15x10x1 inches', NULL, NULL),
+    ('Desk', 5, 199.99, 'physical', 15.0, '48x30x30 inches', NULL, NULL),
+    ('Ebook', 100, 9.99, 'digital', NULL, NULL, 2.0, 'http://example.com/ebook'),
+    ('Antivirus Software', 50, 29.99, 'digital', NULL, NULL, 0.5, 'http://example.com/antivirus'),
+    ('Smartphone', 20, 699.99, 'physical', 0.8, '6x3x0.3 inches', NULL, NULL),
+    ('Tablet', 15, 499.99, 'physical', 1.0, '10x7x0.3 inches', NULL, NULL),
+    ('Streaming Subscription', 200, 12.99, 'digital', NULL, NULL, NULL, 'http://example.com/streaming'),
+    ('Monitor', 8, 249.99, 'physical', 5.5, '24x18x5 inches', NULL, NULL),
+    ('Music Album', 300, 14.99, 'digital', NULL, NULL, 0.8, 'http://example.com/music'),
+    ('External Hard Drive', 12, 79.99, 'physical', 0.6, '6x4x1 inches', NULL, NULL);
+
+------------------02
+update inventory 
+set file_size = 30.2 where id = 7;
+select * from inventory where id = 5;
+
+----------------------03
+select * from inventory order by id desc;
+-----------------------04
+select * from inventory where quantity > 20 order by quantity desc;
+-----------------------05
+select  name ,(price * quantity)as each_item_value from inventory;
+
+SELECT    name,price,quantity,(price * quantity) AS each_item_value,  
+    (SELECT SUM(price * quantity) FROM inventory) AS total_inventory_value  
+FROM   inventory;  
+
+----------------------06
+
+select * from inventory where type = 'digital';
+select * from inventory where type = 'physical';
+
+-------------------------07
+select AVG(price) as average_price from inventory;
+
+--------------------------08
+delete from inventory where id = 10 ;
+--------------------------------09
+update inventory set price = 232323.2 where id = 2;
+------------------------------------10
+SELECT    name,price,quantity,date_added FROM  inventory ORDER BY date_added ASC;
+update inventory set date_added = 2024-01-20 11:47:49.779761 where id = 1;
