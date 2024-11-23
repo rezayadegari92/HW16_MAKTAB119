@@ -5,7 +5,7 @@ class InventoryConnection:
     connection_inventory = None
 
     @classmethod
-    def get_connection(cls) -> psycopg2.connect():
+    def get_connection(cls):
         if cls.connection_inventory:
             return cls.connection_inventory
         else:
@@ -20,12 +20,14 @@ class InventoryConnection:
         return cursor
 
     @classmethod
-    def create_table(cls, table_name: str):
-        query = """CREATE TABLE {}""".format()
+    def create_table(cls):
+        query = """CREATE TABLE inventory(id SERIAL PRIMARY KEY,
+	name VARCHAR(100),
+	QUANTITY INT,
+	PRICE DECIMAL(10,2))"""
         db_cursor = cls.get_cursor()
         db_cursor.execute(query)
         print("TABLE CREATE WAS SUCCESSFUL")
-
     @classmethod
     def get_all(cls, table_name: str) -> List[Tuple]:
         """the function return all TABLE INFO list
@@ -41,5 +43,6 @@ class InventoryConnection:
 
 
 if __name__ == '__main__':
-    inventory_instance = InventoryConnection.create_table('abbasagha')
-
+ #   inventory_instance = InventoryConnection.create_table()
+    list_ = InventoryConnection.get_all('inventory')
+    print(list_)
